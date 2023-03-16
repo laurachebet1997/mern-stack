@@ -5,11 +5,11 @@ const userSchema = mongoose.Schema({
         type: String,
         require: [true, 'please add a name']
     },
-    password:{
+    email:{
         type: String,
         require: [true, 'please add a password']
     },
-    email:{
+    password:{
         type: String,
         require: [true, 'please add a email']
     },

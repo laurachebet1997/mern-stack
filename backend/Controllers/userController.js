@@ -6,9 +6,9 @@ const bcrypt = require('bcrypt')
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body
     console.log(name)
-    if(!name) {
-        res.status(400)
-        throw new Error('add all fields')
+    if (!name) {
+        res.status(400).json({me:"no name"})
+        //throw new Error('add all fields')
     }
     //check user exists
     //const userExist = await User.findOne({email})
@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
         //})
     //} else{
         //res.status(201).json({msg: "invalid login"})}
-    res.json({reg:'register user'})
+    //res.json({reg:'register user'})
 });
 
 const loginUser = asyncHandler(async (req, res) => {

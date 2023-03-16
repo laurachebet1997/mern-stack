@@ -4,35 +4,34 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
 const registerUser = asyncHandler(async (req, res) => {
-    const {name, email, password } = req.body
-    //if(!name || !email || !password) {
-       // res.status(400)
-        //.json({me:'please add mf all fields'})
-     //   throw new Error('add all fields')
-    //}
-    
-    //check user exists
-    const userExist = await User.findOne({email})
-    if(userExist) {
+    const { name, email, password } = req.body
+    console.log(name)
+    if(!name) {
         res.status(400)
-        //.json({me:'add fields'})
-        throw new Error('user exists')
+        throw new Error('add all fields')
     }
-    const salt = bcrypt.genSalt(10)
-    const hashedpassword = await bcrypt.hash(password, salt)
-    const user = await User.create({
-        name,
-        email,
-        password,
-    })
-    if (user){
-        res.status(201).json({
-            _id: user._id,
-            name: user.name
-        })
-    } else{
-        res.status(201).json({msg: "invalid login"})}
-    //res.json({reg:'register user'})
+    //check user exists
+    //const userExist = await User.findOne({email})
+    //if(userExist) {
+        //res.status(400)
+        //.json({me:'add fields'})
+        //throw new Error('user exists')
+    //}
+    //const salt = bcrypt.genSalt(10)
+    //const hashedpassword = await bcrypt.hash(password, salt)
+    //const user = await User.create({
+        //name,
+       // email,
+       // password,
+    //})
+    //if (user){
+        //res.status(201).json({
+            //_id: user._id,
+            //name: user.name
+        //})
+    //} else{
+        //res.status(201).json({msg: "invalid login"})}
+    res.json({reg:'register user'})
 });
 
 const loginUser = asyncHandler(async (req, res) => {

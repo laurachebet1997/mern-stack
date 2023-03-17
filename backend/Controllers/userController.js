@@ -41,7 +41,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const { email , password } = req.body
     //check user
     const user = await User.findOne({email})
-    if(user && (await bycrypt.compare(password, user.password))) {
+    if(user && (await bcrypt.compare(password, user.password))) {
         res.json({
             _id: user._id,
             name:user.name,
@@ -55,8 +55,13 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const getMe =  asyncHandler(async(req, res) => {
+    const {_id, name, email } = await User.findById(res.user.id)
+    res.status(200).json({
+        _id: id,
+        name,
+    })
     //const goals = await Goal.find()
-    res.json({me:' user'})
+    //res.json({me:' user'})
 });
 
 //generate token

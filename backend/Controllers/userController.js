@@ -2,40 +2,55 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const express = require('express')
 
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body
-    console.log(name)
-    if (!name) {
-        res.status(400).json({me:"no name"})
-        //throw new Error('add all fields')
+    console.log(name,email,password)
+    if (!name || !email || !password) {
+        res.status(400)
+        throw new Error('add all fields')
     }
     //check user exists
-    //const userExist = await User.findOne({email})
-    //if(userExist) {
-        //res.status(400)
-        //.json({me:'add fields'})
-        //throw new Error('user exists')
-    //}
-    //const salt = bcrypt.genSalt(10)
-    //const hashedpassword = await bcrypt.hash(password, salt)
-    //const user = await User.create({
-        //name,
-       // email,
-       // password,
-    //})
-    //if (user){
-        //res.status(201).json({
-            //_id: user._id,
-            //name: user.name
-        //})
-    //} else{
-        //res.status(201).json({msg: "invalid login"})}
+    const userExist = await User.findOne({email})
+    if(userExist) {
+        res.status(400)
+        throw new Error('user exists')
+    }
+    const salt = bcrypt.genSalt(10)
+    const hashedpassword = await bcrypt.hash(password, 10)
+    const user = await User.create({
+        name,
+        email,
+        password: hashedpassword,
+    })
+    if (user){
+        res.status(201).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            token: gentoken(user._id)
+        })
+    } else{
+        res.status(201)
+        throw new Error('invalid login')
     //res.json({reg:'register user'})
-});
+}});
 
 const loginUser = asyncHandler(async (req, res) => {
-    //const goals = await Goal.find()
+    const { email , password } = req.body
+    //check user
+    const user = await User.findOne({email})
+    if(user && (await bycrypt.compare(password, user.password))) {
+        res.json({
+            _id: user._id,
+            name:user.name,
+            token: gentoken(user._id),
+        })
+    }else{
+        res.status(201)
+        throw new Error('invalid login')
+    }
     res.json({login:'login user'})
 });
 
@@ -44,6 +59,12 @@ const getMe =  asyncHandler(async(req, res) => {
     res.json({me:' user'})
 });
 
+//generate token
+const gentoken = (id) => {
+    return jwt.sign({id},process.env.JWT,{
+        expiresIn: '30d'
+    }) 
+}
 module.exports = {
     registerUser,
     loginUser,

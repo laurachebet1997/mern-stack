@@ -60,7 +60,6 @@ const getMe =  asyncHandler(async(req, res) => {
         _id: id,
         name,
     })
-    //const goals = await Goal.find()
     //res.json({me:' user'})
 });
 

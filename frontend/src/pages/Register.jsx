@@ -1,20 +1,20 @@
-import {  useState } from "react"
+import {  useEffect,useState } from "react"
 import { FaUser } from "react-icons/fa";
 
 const Register = () => {
-    const {formdata,setformdata } = useState({
-        name:'',
-        email:'',
-        password1:'',
-        password2:'',
-    })
-    const {name,email,password1,password2} = formdata;
-    const onChange = (e) => {
-      setformdata((prevState) => ({
-        ...prevState,
-        [e.target.name]: e.target.value,
-      }))
-    };
+     const [formdata,setFormdata ] = useState({
+         name:'',
+         email:'',
+         password1:'',
+         password2:''
+     })
+     const {name,email,password1,password2} = formdata;
+     const onChange = (e) => {
+       setFormdata((prevState) => ({
+         ...prevState,
+        [e.target.name]: e.target.value,}))
+     };
+    //const onChange = () => {};
 
     const onSubmit = (e) => {
       e.preventDefault()
@@ -36,7 +36,8 @@ const Register = () => {
         name="name"
         value={name}
         placeholder="enter your name"
-        onChange={onChange}/>
+        onChange={onChange}
+        />
         </div>
       
       
@@ -47,7 +48,8 @@ const Register = () => {
         name="email"
         value={email}
         placeholder="enter your email"
-        onChange={onChange}/>
+        onChange={onChange}
+        />
         </div>
       
       <div className="form-group">
@@ -57,7 +59,8 @@ const Register = () => {
         name="password1"
         value={password1}
         placeholder="enter password"
-        onChange={onChange}/>
+        onChange={onChange}
+        />
         </div>
     
       <div className="form-group">
@@ -67,7 +70,8 @@ const Register = () => {
         name="password2"
         value={password2}
         placeholder="enter second password"
-        onSubmit={onChange}/>
+        onChange={onChange}
+        />
         </div>
         <div className="form-group">
         <button type='submit' classname='btn-btn-block'>submit</button>
